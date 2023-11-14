@@ -1,1 +1,85 @@
-var z=()=>{const y=document.getElementById("action-buttons-container");if(!y)throw new Error("Action buttons container not found");return{play:y.children[0],edit:y.children[1],delete:y.children[2]}},A=(y,f,q)=>{const L=document.createElement("a");L.id=`${y.toLowerCase()}-option`,L.classList.add("bg-secondary","text-white","dropdown-item","smacm-option"),L.onclick=(j)=>{j.preventDefault(),q.click()},L.setAttribute("role","button"),L.textContent=y,f.appendChild(L)},F=(y,f={x:y.clientX,y:y.clientY})=>{y.preventDefault();const{x:q,y:L}=f,j=document.getElementById("more-menu");if(!j)throw new Error("More menu not found");const E=j.parentElement;if(E&&!E.classList.contains("show"))j.click();if(E)E.classList.add("context-menu-container"),E.style.position="fixed",E.style.left=q+5+"px",E.style.top=L-10+"px",E.style.display="block",E.style.zIndex="1000";const G=document.querySelectorAll(".row.justify-content-center input:checked"),w=j.nextElementSibling;if(w.childNodes.forEach((D)=>{if(D instanceof HTMLElement)D.style.order="2"}),G.length>0)!document.getElementById("play-option")&&A("Play",w,z().play),!document.getElementById("edit-option")&&A("Edit",w,z().edit),!document.getElementById("delete-option")&&A("Delete",w,z().delete);else document.getElementById("play-option")?.remove(),document.getElementById("edit-option")?.remove(),document.getElementById("delete-option")?.remove()};document.addEventListener("contextmenu",F);document.addEventListener("mousemove",(y)=>{const{clientX:f,clientY:q}=y;window.lastMousePosition={x:f,y:q}});document.addEventListener("keydown",(y)=>{if(y.ctrlKey&&y.key==="."||y.metaKey&&y.key===".")F(y,window.lastMousePosition)});alert("4");
+// src/interface.ts
+var actionButtonNodes = () => {
+  const actionBtnsContainer = document.getElementById(
+    "action-buttons-container"
+  );
+  if (!actionBtnsContainer) {
+    throw new Error("Action buttons container not found");
+  }
+  return {
+    play: actionBtnsContainer.children[0],
+    edit: actionBtnsContainer.children[1],
+    delete: actionBtnsContainer.children[2],
+  };
+};
+var renderOption = (label, sibling, simulatedNode) => {
+  const option = document.createElement("a");
+  option.id = `${label.toLowerCase()}-option`;
+  option.classList.add(
+    "bg-secondary",
+    "text-white",
+    "dropdown-item",
+    "smacm-option"
+  );
+  option.onclick = (e) => {
+    e.preventDefault();
+    simulatedNode.click();
+  };
+  option.setAttribute("role", "button");
+  option.textContent = label;
+  sibling.appendChild(option);
+};
+var openContextMenu = (e, coords = { x: e.clientX, y: e.clientY }) => {
+  e.preventDefault();
+  const mouseX = coords.x;
+  const mouseY = coords.y;
+  const moreMenu = document.getElementById("more-menu");
+  if (!moreMenu) {
+    throw new Error("More menu not found");
+  }
+  const parent = moreMenu.parentElement;
+  if (parent && !parent.classList.contains("show")) {
+    moreMenu.click();
+  }
+  if (parent) {
+    parent.classList.add("context-menu-container");
+    parent.style.position = "fixed";
+    parent.style.left = mouseX + 5 + "px";
+    parent.style.top = mouseY - 10 + "px";
+    parent.style.display = "block";
+    parent.style.zIndex = "1000";
+  }
+  const checkedCheckboxes = document.querySelectorAll(
+    ".row.justify-content-center input:checked"
+  );
+  const sibling = moreMenu.nextElementSibling;
+  sibling.childNodes.forEach((child) => {
+    if (child instanceof HTMLElement) {
+      child.style.order = "2";
+    }
+  });
+  if (checkedCheckboxes.length > 0) {
+    !document.getElementById("play-option") &&
+      renderOption("Play", sibling, actionButtonNodes().play);
+    !document.getElementById("edit-option") &&
+      renderOption("Edit", sibling, actionButtonNodes().edit);
+    !document.getElementById("delete-option") &&
+      renderOption("Delete", sibling, actionButtonNodes().delete);
+  } else {
+    document.getElementById("play-option")?.remove();
+    document.getElementById("edit-option")?.remove();
+    document.getElementById("delete-option")?.remove();
+  }
+};
+document.addEventListener("contextmenu", openContextMenu);
+document.addEventListener("mousemove", (event) => {
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+  window.lastMousePosition = { x: mouseX, y: mouseY };
+});
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey && e.key === ".") || (e.metaKey && e.key === ".")) {
+    openContextMenu(e, window.lastMousePosition);
+  }
+});
+alert("4");
