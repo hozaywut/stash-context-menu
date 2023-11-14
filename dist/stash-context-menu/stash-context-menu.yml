@@ -1,0 +1,8 @@
+name: stash-more-as-context-menu
+description: turns your toolbar options into a context menu, cause who wants to scroll, ain't nobody got time for that
+version: 0.0.3
+ui:
+  css:
+    - theme.css
+  javascript:
+    - interface.js

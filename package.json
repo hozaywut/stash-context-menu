@@ -1,0 +1,21 @@
+{
+  "name": "stash-context-menu",
+  "version": "1.0.0",
+  "description": "a \"more\" ",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx concurrently --kill-others \"npx sass --watch src/styles.scss dist/stash-context-menu/theme.css\" \"npx bun build --watch ./src/interface.ts --outdir ./dist/stash-context-menu/\"",
+    "build-minified": "npx concurrently --kill-others \"npx sass --watch src/styles.scss dist/stash-context-menu/theme.css --style compressed\" \"npx bun build --watch ./src/interface.ts --outdir ./dist/stash-context-menu/ --minify\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fuse.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "bun": "^1.0.11",
+    "concurrently": "^8.2.2",
+    "sass": "^1.69.5",
+    "typescript": "^5.2.2"
+  }
+}
