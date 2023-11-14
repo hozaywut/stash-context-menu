@@ -117,4 +117,3 @@ document.addEventListener("keydown", (e) => {
     openContextMenu(e, window.lastMousePosition);
   }
 });
-alert("4");

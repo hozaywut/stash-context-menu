@@ -1,26 +1,19 @@
 // src/interface.ts
 var actionButtonNodes = () => {
-  const actionBtnsContainer = document.getElementById(
-    "action-buttons-container"
-  );
+  const actionBtnsContainer = document.getElementById("action-buttons-container");
   if (!actionBtnsContainer) {
     throw new Error("Action buttons container not found");
   }
   return {
     play: actionBtnsContainer.children[0],
     edit: actionBtnsContainer.children[1],
-    delete: actionBtnsContainer.children[2],
+    delete: actionBtnsContainer.children[2]
   };
 };
 var renderOption = (label, sibling, simulatedNode) => {
   const option = document.createElement("a");
   option.id = `${label.toLowerCase()}-option`;
-  option.classList.add(
-    "bg-secondary",
-    "text-white",
-    "dropdown-item",
-    "smacm-option"
-  );
+  option.classList.add("bg-secondary", "text-white", "dropdown-item", "smacm-option");
   option.onclick = (e) => {
     e.preventDefault();
     simulatedNode.click();
@@ -49,9 +42,7 @@ var openContextMenu = (e, coords = { x: e.clientX, y: e.clientY }) => {
     parent.style.display = "block";
     parent.style.zIndex = "1000";
   }
-  const checkedCheckboxes = document.querySelectorAll(
-    ".row.justify-content-center input:checked"
-  );
+  const checkedCheckboxes = document.querySelectorAll(".row.justify-content-center input:checked");
   const sibling = moreMenu.nextElementSibling;
   sibling.childNodes.forEach((child) => {
     if (child instanceof HTMLElement) {
@@ -59,12 +50,9 @@ var openContextMenu = (e, coords = { x: e.clientX, y: e.clientY }) => {
     }
   });
   if (checkedCheckboxes.length > 0) {
-    !document.getElementById("play-option") &&
-      renderOption("Play", sibling, actionButtonNodes().play);
-    !document.getElementById("edit-option") &&
-      renderOption("Edit", sibling, actionButtonNodes().edit);
-    !document.getElementById("delete-option") &&
-      renderOption("Delete", sibling, actionButtonNodes().delete);
+    !document.getElementById("play-option") && renderOption("Play", sibling, actionButtonNodes().play);
+    !document.getElementById("edit-option") && renderOption("Edit", sibling, actionButtonNodes().edit);
+    !document.getElementById("delete-option") && renderOption("Delete", sibling, actionButtonNodes().delete);
   } else {
     document.getElementById("play-option")?.remove();
     document.getElementById("edit-option")?.remove();
@@ -78,8 +66,7 @@ document.addEventListener("mousemove", (event) => {
   window.lastMousePosition = { x: mouseX, y: mouseY };
 });
 document.addEventListener("keydown", (e) => {
-  if ((e.ctrlKey && e.key === ".") || (e.metaKey && e.key === ".")) {
+  if (e.ctrlKey && e.key === "." || e.metaKey && e.key === ".") {
     openContextMenu(e, window.lastMousePosition);
   }
 });
-alert("4");
